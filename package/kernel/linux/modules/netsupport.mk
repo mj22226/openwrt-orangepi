@@ -1406,7 +1406,9 @@ define KernelPackage/wireguard
   KCONFIG:= \
 	  CONFIG_WIREGUARD \
 	  CONFIG_WIREGUARD_DEBUG=n
-  FILES:=$(LINUX_DIR)/drivers/net/wireguard/wireguard.ko
+  FILES:= \
+	$(LINUX_DIR)/lib/crypto/libblake2s.ko \
+	$(LINUX_DIR)/drivers/net/wireguard/wireguard.ko
   AUTOLOAD:=$(call AutoProbe,wireguard)
 endef
 
