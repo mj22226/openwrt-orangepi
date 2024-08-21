@@ -4,6 +4,7 @@ START=22
 start() {
 	rm -rf /etc/rc.d/S22resize-rootfs
 	#service resize-rootfs disable
+	/usr/bin/led-lan.sh
 	/usr/bin/resize-rootfs.sh
 }
 

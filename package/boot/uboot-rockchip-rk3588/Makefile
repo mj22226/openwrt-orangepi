@@ -7,9 +7,9 @@ include $(INCLUDE_DIR)/kernel.mk
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=https://github.com/orangepi-xunlong/u-boot-orangepi
-PKG_SOURCE_DATE:=2017-09
-PKG_SOURCE_VERSION:=d7c6b92f9e33283bea56dbaec7743f5ecb5a7f89
-PKG_MIRROR_HASH:=9c0d83c1a01a48173e47f63f7cb292347f0cebf4f0396d98616e0bfd5ce6f3fc
+PKG_SOURCE_DATE:=2017-09-rk3588
+PKG_SOURCE_VERSION:=260ed1ba444bb0c1a96491e9c54219ce39fea01d
+PKG_MIRROR_HASH:=df7997de57ebefc70d348e5eb715bcb69cd33172fbf33c526dd4c92ef7968c68
 
 include $(INCLUDE_DIR)/u-boot.mk
 include $(INCLUDE_DIR)/package.mk
@@ -32,6 +32,34 @@ define U-Boot/orangepi-5-rk3588
   PKG_BUILD_DEPENDS:=arm-trusted-firmware-rk3588
   ATF:=rk3588_bl31_v1.27.elf
   TPL=rk3588_ddr_lp4_2112MHz_lp5_2736MHz_v1.08.bin
+  #OF_PLATDATA:=$(1)
+endef
+
+define U-Boot/orangepi-cm5-rk3588
+  #PKG_VERSION:=2023.04
+  #PKG_RELEASE:=$(AUTORELEASE)
+  #PKG_HASH:=e31cac91545ff41b71cec5d8c22afd695645cd6e2a442ccdacacd60534069341
+  BUILD_SUBTARGET:=armv8
+  NAME:=Orange Pi CM 5
+  BUILD_DEVICES:= \
+    xunlong_orangepi-cm5
+  DEPENDS:=+PACKAGE_u-boot-orangepi-cm5-rk3588:arm-trusted-firmware-rk3588
+  #:arm-trusted-firmware-rk3588
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rk3588
+  ATF:=rk3588_bl31_v1.44.elf
+  TPL=rk3588_ddr_lp4_2112MHz_lp5_2736MHz_v1.15.bin
+  #OF_PLATDATA:=$(1)
+endef
+
+define U-Boot/orangepi-5-max-rk3588
+  BUILD_SUBTARGET:=armv8
+  NAME:=Orange Pi 5 Max
+  BUILD_DEVICES:= \
+    xunlong_orangepi-5-max
+  DEPENDS:=+PACKAGE_u-boot-orangepi-5-max-rk3588:arm-trusted-firmware-rk3588
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rk3588
+  ATF:=rk3588_bl31_v1.44.elf
+  TPL=rk3588_ddr_lp4_2112MHz_lp5_2736MHz_v1.15.bin
   #OF_PLATDATA:=$(1)
 endef
 
@@ -73,6 +101,8 @@ endef
 
 UBOOT_TARGETS := \
   orangepi-5-rk3588 \
+  orangepi-5-max-rk3588 \
+  orangepi-cm5-rk3588 \
   orangepi-5-rk3588-spi \
   orangepi-5-plus-rk3588 \
   orangepi-5-plus-rk3588-spi \
@@ -82,6 +112,29 @@ UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 UBOOT_MAKE_FLAGS += \
   BL31=$(STAGING_DIR_IMAGE)/$(ATF) \
   spl/u-boot-spl.bin u-boot.dtb u-boot.itb
+
+RKBIN_URL:=https://github.com/orangepi-xunlong/rk-rootfs-build/raw/rkbin
+
+define Download/rk3588-ddr
+  FILE:=rk3588_ddr_lp4_2112MHz_lp5_2736MHz_v1.15.bin
+  URL:=$(RKBIN_URL)/rk35/
+  HASH:=a8385c213d7d24a51ad07ae7702845467c7c66c675354729fe42d8194deec49d
+endef
+$(eval $(call Download,rk3588-ddr))
+
+define Download/rk3588-atf
+  FILE:=rk3588_bl31_v1.44.elf
+  URL:=$(RKBIN_URL)/rk35/
+  HASH:=483b4219260495c4aeea616f33b61657db8e0978aae4cdf1f3c934873f68ef0e
+endef
+$(eval $(call Download,rk3588-atf))
+
+
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	$(CP) $(DL_DIR)/rk3588_ddr_lp4_2112MHz_lp5_2736MHz_v1.15.bin $(STAGING_DIR_IMAGE)/
+	$(CP) $(DL_DIR)/rk3588_bl31_v1.44.elf $(STAGING_DIR_IMAGE)/
+endef
 
 define Build/Configure
 	$(call Build/Configure/U-Boot)
