@@ -82,6 +82,16 @@ define Device/xunlong_orangepi-5-sata
 endef
 TARGET_DEVICES += xunlong_orangepi-5-sata
 
+define Device/xunlong_orangepi-cm5-tablet
+  DEVICE_VENDOR := XunLong
+  DEVICE_MODEL := Orange Pi CM 5 Tablet
+  SOC := rk3588s
+  UBOOT_DEVICE_NAME := orangepi-cm5-tablet-rk3588
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script orangepi-5 | pine64-img | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-usb-net-rtl8152 kmod-r8125 kmod-iwlwifi
+endef
+TARGET_DEVICES += xunlong_orangepi-cm5-tablet
+
 define Device/xunlong_orangepi-cm5
   DEVICE_VENDOR := XunLong
   DEVICE_MODEL := Orange Pi CM 5 

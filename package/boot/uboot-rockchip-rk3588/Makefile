@@ -51,6 +51,18 @@ define U-Boot/orangepi-cm5-rk3588
   #OF_PLATDATA:=$(1)
 endef
 
+define U-Boot/orangepi-cm5-tablet-rk3588
+  BUILD_SUBTARGET:=armv8
+  NAME:=Orange Pi CM 5 Tablet
+  BUILD_DEVICES:= \
+    xunlong_orangepi-cm5-tablet
+  DEPENDS:=+PACKAGE_u-boot-orangepi-cm5-tablet-rk3588:arm-trusted-firmware-rk3588
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rk3588
+  ATF:=rk3588_bl31_v1.44.elf
+  TPL=rk3588_ddr_lp4_2112MHz_lp5_2736MHz_v1.15.bin
+  #OF_PLATDATA:=$(1)
+endef
+
 define U-Boot/orangepi-5-max-rk3588
   BUILD_SUBTARGET:=armv8
   NAME:=Orange Pi 5 Max
@@ -101,6 +113,7 @@ endef
 
 UBOOT_TARGETS := \
   orangepi-5-rk3588 \
+  orangepi-cm5-tablet-rk3588 \
   orangepi-5-max-rk3588 \
   orangepi-cm5-rk3588 \
   orangepi-5-rk3588-spi \
