@@ -62,6 +62,16 @@ define Device/xunlong_orangepi-5-plus
 endef
 TARGET_DEVICES += xunlong_orangepi-5-plus
 
+define Device/xunlong_orangepi-5-ultra
+  DEVICE_VENDOR := XunLong
+  DEVICE_MODEL := Orange Pi 5 Ultra
+  SOC := rk3588
+  UBOOT_DEVICE_NAME := orangepi-5-ultra-rk3588
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script orangepi-5 | pine64-img | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-usb-net-rtl8152 kmod-r8125 kmod-iwlwifi
+endef
+TARGET_DEVICES += xunlong_orangepi-5-ultra
+
 define Device/xunlong_orangepi-5-max
   DEVICE_VENDOR := XunLong
   DEVICE_MODEL := Orange Pi 5 Max

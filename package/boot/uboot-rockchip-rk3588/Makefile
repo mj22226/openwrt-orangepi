@@ -8,8 +8,8 @@ include $(INCLUDE_DIR)/kernel.mk
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=https://github.com/orangepi-xunlong/u-boot-orangepi
 PKG_SOURCE_DATE:=2017-09-rk3588
-PKG_SOURCE_VERSION:=260ed1ba444bb0c1a96491e9c54219ce39fea01d
-PKG_MIRROR_HASH:=df7997de57ebefc70d348e5eb715bcb69cd33172fbf33c526dd4c92ef7968c68
+PKG_SOURCE_VERSION:=5e34a2115e1dd9128892b828d869f74677361a78
+PKG_MIRROR_HASH:=ed8628ca4c8d87b89bc2fec5ebf32cd7950867f9c6b9fb6afb1a768ea0b95a7f
 
 include $(INCLUDE_DIR)/u-boot.mk
 include $(INCLUDE_DIR)/package.mk
@@ -32,6 +32,18 @@ define U-Boot/orangepi-5-rk3588
   PKG_BUILD_DEPENDS:=arm-trusted-firmware-rk3588
   ATF:=rk3588_bl31_v1.27.elf
   TPL=rk3588_ddr_lp4_2112MHz_lp5_2736MHz_v1.08.bin
+  #OF_PLATDATA:=$(1)
+endef
+
+define U-Boot/orangepi-5-ultra-rk3588
+  BUILD_SUBTARGET:=armv8
+  NAME:=OrangePi 5 Ultra
+  BUILD_DEVICES:= \
+    xunlong_orangepi-5-ultra
+  DEPENDS:=+PACKAGE_u-boot-orangepi-5-ultra-rk3588:arm-trusted-firmware-rk3588
+  PKG_BUILD_DEPENDS:=arm-trusted-firmware-rk3588
+  ATF:=rk3588_bl31_v1.44.elf
+  TPL=rk3588_ddr_lp4_2112MHz_lp5_2736MHz_v1.15.bin
   #OF_PLATDATA:=$(1)
 endef
 
@@ -114,6 +126,7 @@ endef
 UBOOT_TARGETS := \
   orangepi-5-rk3588 \
   orangepi-cm5-tablet-rk3588 \
+  orangepi-5-ultra-rk3588 \
   orangepi-5-max-rk3588 \
   orangepi-cm5-rk3588 \
   orangepi-5-rk3588-spi \
