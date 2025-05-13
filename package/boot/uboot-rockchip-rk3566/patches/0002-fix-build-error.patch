@@ -1,0 +1,39 @@
+From 4460a1036eb45a0b925c659020c016e638363311 Mon Sep 17 00:00:00 2001
+From: toolsmanhehe <1340909670@qq.com>
+Date: Mon, 12 May 2025 17:44:52 +0800
+Subject: [PATCH 2/2] fix build error
+
+---
+ common/edid.c     | 2 +-
+ include/command.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/common/edid.c b/common/edid.c
+index d7d224c..b4c66bd 100644
+--- a/common/edid.c
++++ b/common/edid.c
+@@ -3579,7 +3579,7 @@ int add_cea_modes(struct hdmi_edid_data *data, struct edid *edid)
+ {
+ 	const u8 *cea = drm_find_cea_extension(edid);
+ 	const u8 *db, *hdmi = NULL, *video = NULL;
+-	u8 dbl, hdmi_len, video_len = 0;
++	u8 dbl, hdmi_len = 0, video_len = 0;
+ 	int modes = 0;
+ 
+ 	if (cea && cea_revision(cea) >= 3) {
+diff --git a/include/command.h b/include/command.h
+index 681084b..6b2e813 100644
+--- a/include/command.h
++++ b/include/command.h
+@@ -139,7 +139,7 @@ enum command_ret_t {
+  *			number of ticks the command took to complete.
+  * @return 0 if the command succeeded, 1 if it failed
+  */
+-int cmd_process(int flag, int argc, char * const argv[],
++enum command_ret_t cmd_process(int flag, int argc, char * const argv[],
+ 			       int *repeatable, unsigned long *ticks);
+ 
+ void fixup_cmdtable(cmd_tbl_t *cmdtp, int size);
+-- 
+2.34.1
+

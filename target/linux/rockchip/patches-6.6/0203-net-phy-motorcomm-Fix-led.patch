@@ -1,0 +1,27 @@
+From d99e636f7592dca5f42c193385239f11c5356527 Mon Sep 17 00:00:00 2001
+From: toolsmanhehe <1340909670@qq.com>
+Date: Mon, 12 May 2025 18:04:05 +0800
+Subject: [PATCH 3/3] net: phy: motorcomm: Fix led
+
+---
+ drivers/net/phy/motorcomm.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/net/phy/motorcomm.c b/drivers/net/phy/motorcomm.c
+index 727ab1821..10aaf096f 100644
+--- a/drivers/net/phy/motorcomm.c
++++ b/drivers/net/phy/motorcomm.c
+@@ -1106,6 +1106,10 @@ static int yt8531_probe(struct phy_device *phydev)
+ 		return -EINVAL;
+ 	}
+ 
++	ytphy_write_ext(phydev, 0xa00d, 0x670);
++        ytphy_write_ext(phydev, 0xa00e, 0x2070);
++        ytphy_write_ext(phydev, 0xa00f, 0x7e);
++
+ 	return ytphy_modify_ext_with_lock(phydev, YTPHY_SYNCE_CFG_REG, mask,
+ 					  val);
+ }
+-- 
+2.34.1
+
