@@ -38,8 +38,16 @@ define U-Boot/orangepi-3b-rk3566
     xunlong_orangepi-3b
 endef
 
+define U-Boot/orangepi-cm4-rk3566
+  $(U-Boot/rk3566/Default)
+  NAME:=Orange Pi cm4
+  BUILD_DEVICES:= \
+    xunlong_orangepi-cm4
+endef
+
 UBOOT_TARGETS := \
-  orangepi-3b-rk3566
+  orangepi-3b-rk3566 \
+  orangepi-cm4-rk3566
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 

@@ -290,3 +290,13 @@ define Device/xunlong_orangepi-3b
   DEVICE_PACKAGES := kmod-usb-net-rtl8152
 endef
 TARGET_DEVICES += xunlong_orangepi-3b
+
+define Device/xunlong_orangepi-cm4
+  DEVICE_VENDOR := Xunlong
+  DEVICE_MODEL := Orange Pi cm4
+  SOC := rk3566
+  KERNEL := kernel-bin
+  IMAGE/sysupgrade.img.gz := boot-common | boot-script orangepi-cm4 | pine64-img | gzip | append-metadata
+  DEVICE_PACKAGES := kmod-usb-net-rtl8152
+endef
+TARGET_DEVICES += xunlong_orangepi-cm4
